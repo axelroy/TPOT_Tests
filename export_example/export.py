@@ -2,20 +2,6 @@ from sklearn import * # Needed to discover all subclasses
 import tpot
 import sklearn
 
-def all_subclasses(cls):
-    return cls.__subclasses__() + [g for s in cls.__subclasses__() for g in all_subclasses(s)]
-
-print(all_subclasses(tpot))
-
-tpot_estimators = set([x.__name__ for x in tpot.operators.Operator.inheritors()])
-sklearn_estimators = set([x.__name__ for x in all_subclasses(sklearn.base.BaseEstimator)
-    if x.__name__[0] != '_' and not x.__name__.startswith("Base")])
-
-for est in sklearn_estimators:
-    marker = 'X' if est in tpot_estimators else ' '
-    print("- [{}] {}".format(marker, est))
-
-
 from tpot import TPOTClassifier
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
